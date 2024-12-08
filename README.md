@@ -18,4 +18,4 @@ library(shiny)
 runGitHub("myasthenia-prediction", "MariusFurter")
 ```
 
-The repository additionally contains raw versions of the results presented in the paper (analysis/results) along with the code that generated them (analysis/code). The original data sets are not included due as they contain sensitive patient information.
+The repository additionally contains raw versions of the [results](analysis/results) presented in the paper along with the [code](analysis/code) that generated them. The original data sets are not included since they contain sensitive patient information.
