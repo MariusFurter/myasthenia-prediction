@@ -2,11 +2,11 @@
 
 This repository contains the Shiny app developed for
 
-> "Multivariable Prediction Model for Suspected Ocular Myasthenia Gravis: Development and Validation"
-> by
-> Armin Handzic, MD, Marius P. Furter , Brigitte C. Messmer,
+**Multivariable Prediction Model for Suspected Ocular Myasthenia Gravis: Development and Validation**
+
+by *Armin Handzic, MD, Marius P. Furter , Brigitte C. Messmer,
 Magdalena A. Wirth, MD, Yulia Valko, MD, Fabienne C. Fierz, MD, Edward
-A. Margolin, MD, Konrad P. Weber, MD.
+A. Margolin, MD, Konrad P. Weber, MD.*
 
 The app is hosted online at [myasthenia-prediction.app](https://myasthenia-prediction.app).
 
