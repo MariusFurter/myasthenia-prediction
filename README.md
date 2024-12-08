@@ -12,9 +12,9 @@ The app is hosted online at [myasthenia-prediction.app](https://myasthenia-predi
 
 You can run the app locally by executing the following commands in R:
 
-`
+```
 library(shiny)
 runGitHub("myasthenia-prediction", "MariusFurter")
-`
+```
 
 The repository additionally contains raw versions of the results presented in the paper (analysis/results) along with the code that generated them (analysis/code). The original data sets are not included due as they contain sensitive patient information.
