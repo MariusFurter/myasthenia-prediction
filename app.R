@@ -181,11 +181,11 @@ ui <- fluidPage(
         title = "About",
         value = "about",
         markdown("This app predicts the probability of *occular    myasthenia gravis*
-                 using a Bayesian network model with the structure depicted below."),
-        imageOutput("DAG"),
-        markdown("For additional details see
+                 using a Bayesian network model with the structure depicted below.For additional details see
 
-                 **'Multivariable Prediction Model for Suspected Ocular Myasthenia Gravis: Development and Validation'** by *Armin Handzic, MD, Marius P. Furter, Brigitte C. Messmer, Magdalena A. Wirth, MD, Yulia Valko, MD, Fabienne C. Fierz, MD, Edward A. Margolin, MD, Konrad P. Weber, MD.*")
+                 **'Multivariable Prediction Model for Suspected Ocular Myasthenia Gravis: Development and Validation'** by *Armin Handzic, MD, Marius P. Furter, Brigitte C. Messmer, Magdalena A. Wirth, MD, Yulia Valko, MD, Fabienne C. Fierz, MD, Edward A. Margolin, MD, Konrad P. Weber, MD.*
+                 "),
+        imageOutput("DAG"),
       ),
     ), )
   )
