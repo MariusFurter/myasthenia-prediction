@@ -7,13 +7,14 @@ load("./models.RData")
 
 
 query_models <- function(evidence) {
-  lapply(models, function(m)
+  lapply(models, function(m) {
     cpquery(
       m,
       event = (mg == "positive"),
       evidence = evidence,
       method = "lw"
-    ))
+    )
+  })
 }
 
 # returns 100 samples of the probability of MG being positive given the evidence
@@ -44,14 +45,12 @@ predict_mg <- function(age = NA,
     diplopia = factor(diplopia, levels = c("negative", "positive")),
     ptosis = factor(ptosis, levels = c("negative", "positive"))
   )
-  if (all(is.na(evidence)))
-  {
+  if (all(is.na(evidence))) {
     NA
-  }
-  else
-  {
-    evidence <- Filter(function(x)
-      ! is.na(x), evidence)
+  } else {
+    evidence <- Filter(function(x) {
+      !is.na(x)
+    }, evidence)
     unlist(query_models(evidence = evidence))
   }
 }
@@ -59,7 +58,7 @@ predict_mg <- function(age = NA,
 
 # Define UI for application
 ui <- fluidPage(
-  titlePanel("Occular Myasthenia Gravis Prediction") ,
+  titlePanel("Occular Myasthenia Gravis Prediction"),
   sidebarLayout(
     sidebarPanel(
       fluidRow(column(
@@ -82,15 +81,15 @@ ui <- fluidPage(
           )
         ),
         column(
-        6,
-        selectInput(
-          inputId = "rns.an.fn.max",
-          label = "RNS",
-          choices = c("positive", "negative", NA),
-          selected = NA
+          6,
+          selectInput(
+            inputId = "rns.an.fn.max",
+            label = "RNS",
+            choices = c("positive", "negative", NA),
+            selected = NA
+          )
         )
-      )),
-
+      ),
       fluidRow(column(
         6,
         selectInput(
@@ -108,7 +107,6 @@ ui <- fluidPage(
           selected = NA
         )
       )),
-
       fluidRow(column(
         6,
         selectInput(
@@ -126,7 +124,6 @@ ui <- fluidPage(
           selected = NA
         )
       )),
-
       fluidRow(column(
         6,
         selectInput(
@@ -161,7 +158,6 @@ ui <- fluidPage(
           selected = NA
         )
       )),
-
       fluidRow(column(
         6,
         actionButton(
@@ -170,29 +166,26 @@ ui <- fluidPage(
           class = "btn btn-danger"
         )
       )),
-
     ),
-
     mainPanel(tabsetPanel(
       id = "inTabset",
-
       tabPanel(
         title = "Prediction",
         value = "prediction",
-
         h5("Predicted 95% credible interval around the median:"),
         verbatimTextOutput(outputId = "ci"),
         plotOutput(outputId = "plot"),
-        textOutput(outputId= "legend")
+        textOutput(outputId = "legend")
       ),
-
       tabPanel(
         title = "About",
         value = "about",
+        markdown("This app predicts the probability of *occular    myasthenia gravis*
+                 using a Bayesian network model with the structure depicted below. For additional details see
 
-        markdown("This app predicts the probability of *occular myasthenia gravis*
-                 using a Bayesian network model with the structure depicted below. For additional details see [Multivariate Prediction Model
-                 for Suspected Ocular Myasthenia Gravis: Development and Validation]"),
+                 > 'Multivariable Prediction Model for Suspected Ocular Myasthenia Gravis: Development and Validation'
+
+                 by *Armin Handzic, MD, Marius P. Furter , Brigitte C. Messmer, Magdalena A. Wirth, MD, Yulia Valko, MD, Fabienne C. Fierz, MD, Edward A. Margolin, MD, Konrad P. Weber, MD.*"),
         imageOutput("DAG"),
       ),
     ), )
@@ -202,9 +195,9 @@ ui <- fluidPage(
 
 # Define server logic
 server <- function(input, output, session) {
-  #reset: find way to also reset model and prediction data
+  # reset: find way to also reset model and prediction data
   observeEvent(input$reset, {
-    labels <-  c(
+    labels <- c(
       "sex",
       "ptosis",
       "diplopia",
@@ -241,47 +234,59 @@ server <- function(input, output, session) {
   output$ci <- renderText({
     m <- median(predictions())
     q <- quantile(predictions(), c(0.025, 0.975), na.rm = T)
-    paste("(", signif(q[1], 2), ",", signif(m, 2) , ",", signif(q[2], 2), ")")
+    paste("(", signif(q[1], 2), ",", signif(m, 2), ",", signif(q[2], 2), ")")
   })
 
-  output$plot <- renderPlot( {
-    if (!all(is.na(predictions()))){
-    pred <- as.vector(predictions())
-    m = signif(median(predictions()),2)
+  output$plot <- renderPlot(
+    {
+      if (!all(is.na(predictions()))) {
+        pred <- as.vector(predictions())
+        m <- signif(median(predictions()), 2)
 
-    q_025 = quantile(pred, 0.025, na.rm=T)
-    q_25 = quantile(pred, 0.25, na.rm=T)
-    q_75 = quantile(pred, 0.75, na.rm=T)
-    q_975 = quantile(pred, 0.975, na.rm=T)
-    qdf = data.frame(m = m, q_025 = q_025, q_25=q_25, q_75=q_75, q_975=q_975)
+        q_025 <- quantile(pred, 0.025, na.rm = T)
+        q_25 <- quantile(pred, 0.25, na.rm = T)
+        q_75 <- quantile(pred, 0.75, na.rm = T)
+        q_975 <- quantile(pred, 0.975, na.rm = T)
+        qdf <- data.frame(m = m, q_025 = q_025, q_25 = q_25, q_75 = q_75, q_975 = q_975)
 
-    ggplot(data = data.frame(pred)) +
-      geom_density(aes(x=pred)) +
-      geom_vline(aes(xintercept = m), linetype="dashed", data=qdf) +
-      geom_segment(aes(x=q_025, xend=q_975,y=0,yend=0), linewidth=1, color = "lightblue3", data=qdf) +
-      geom_segment(aes(x=q_25, xend=q_75,y=0,yend=0), linewidth=2.5, color = "dodgerblue4", data=qdf) +
-      xlim(0,1) +
-      xlab("Probability of OMG") +
-      ylab("Density") +
-      theme_light() +
-      theme(panel.grid = element_blank(), axis.text.y = element_blank(),
-            axis.ticks.y = element_blank())}
-  }, res = 120)
+        ggplot(data = data.frame(pred)) +
+          geom_density(aes(x = pred)) +
+          geom_vline(aes(xintercept = m), linetype = "dashed", data = qdf) +
+          geom_segment(aes(x = q_025, xend = q_975, y = 0, yend = 0), linewidth = 1, color = "lightblue3", data = qdf) +
+          geom_segment(aes(x = q_25, xend = q_75, y = 0, yend = 0), linewidth = 2.5, color = "dodgerblue4", data = qdf) +
+          xlim(0, 1) +
+          xlab("Probability of OMG") +
+          ylab("Density") +
+          theme_light() +
+          theme(
+            panel.grid = element_blank(), axis.text.y = element_blank(),
+            axis.ticks.y = element_blank()
+          )
+      }
+    },
+    res = 120
+  )
 
   output$legend <- renderText({
-    if (!all(is.na(predictions()))){
-    "Dashed line: median, dark blue interval: 50% credible interval, light blue: 95% credible interval."}})
+    if (!all(is.na(predictions()))) {
+      "Dashed line: median, dark blue interval: 50% credible interval, light blue: 95% credible interval."
+    }
+  })
 
-  output$DAG <- renderImage({
-    width <- session$clientData$output_DAG_width
-    height <- session$clientData$output_DAG_height
-    list(src = "./OMG_DAG.png",
-         contentType ='image/png',
-         width = width,
-         alt = "DAG structure of the model")
-  }, deleteFile = FALSE)
-
-  }
+  output$DAG <- renderImage(
+    {
+      width <- session$clientData$output_DAG_width
+      height <- session$clientData$output_DAG_height
+      list(
+        src = "./OMG_DAG.png",
+        contentType = "image/png",
+        width = width,
+        alt = "DAG structure of the model"
+      )
+    },
+    deleteFile = FALSE
+  )
+}
 
 # Run the application
 shinyApp(ui = ui, server = server)
