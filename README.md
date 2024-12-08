@@ -14,6 +14,7 @@ You can run the app locally by executing the following commands in R:
 
 ```
 library(shiny)
+
 runGitHub("myasthenia-prediction", "MariusFurter")
 ```
 
