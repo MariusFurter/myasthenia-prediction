@@ -8,7 +8,7 @@ This repository contains the Shiny app developed for
 Magdalena A. Wirth, MD, Yulia Valko, MD, Fabienne C. Fierz, MD, Edward
 A. Margolin, MD, Konrad P. Weber, MD.
 
-The app is hosted online at (myasthenia-prediction.app)[myasthenia-prediction.app].
+The app is hosted online at [myasthenia-prediction.app](myasthenia-prediction.app).
 
 You can run the app locally by executing the following commands in R:
 
