@@ -1,0 +1,8 @@
+"","variables","cases","mean_error","mean_auroc"
+"1","age, sex",24,0.619,0.614
+"2","diplopia, ptosis",24,0.735,0.503
+"3","anti.achr",24,0.292,0.879
+"4","simpson.test",12,0.196,0.655
+"5","ice.test",2,0.12,0.414
+"6","age, sex, diplopia, ptosis, simpson.test",12,0.345,0.65
+"7","age, sex, diplopia, ptosis, anti.achr, simpson.test",12,0.25,0.909

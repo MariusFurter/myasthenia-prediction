@@ -1,0 +1,13 @@
+"","variables","cases","mean_error","mean_auroc"
+"1","age, sex",69,0.409,0.612
+"2","diplopia, ptosis",69,0.557,0.496
+"3","anti.achr",68,0.147,0.874
+"4","simpson.test",67,0.355,0.659
+"5","ice.test",14,0.57,0.424
+"6","besinger.score",32,0.553,0.551
+"7","endrophonium",31,0.194,0.821
+"8","rns.an.fn.max",13,0.386,0.571
+"9","sfemg",2,0.49,0.5
+"10","endrophonium, anti.achr",30,0.204,0.897
+"11","age, sex, diplopia, ptosis, simpson.test",67,0.401,0.65
+"12","age, sex, diplopia, ptosis, anti.achr, simpson.test",66,0.158,0.909
