@@ -58,7 +58,7 @@ predict_mg <- function(age = NA,
 
 # Define UI for application
 ui <- fluidPage(
-  titlePanel("Occular Myasthenia Gravis Prediction"),
+  titlePanel("Ocular Myasthenia Gravis Prediction"),
   sidebarLayout(
     sidebarPanel(
       fluidRow(column(
@@ -183,7 +183,7 @@ ui <- fluidPage(
         markdown("This app predicts the probability of *occular    myasthenia gravis*
                  using a Bayesian network model with the structure depicted below. For additional details see
 
-                 **'Multivariable Prediction Model for Suspected Ocular Myasthenia Gravis: Development and Validation'** by *Armin Handzic, MD, Marius P. Furter, Brigitte C. Messmer, Magdalena A. Wirth, MD, Yulia Valko, MD, Fabienne C. Fierz, MD, Edward A. Margolin, MD, Konrad P. Weber, MD.*
+                 **'Multivariable Prediction Model for Suspected Ocular Myasthenia Gravis: Development and Validation'** by *Armin Handzic, MD; Marius P. Furter; Brigitte C. Messmer; Magdalena A. Wirth, MD; Yulia Valko, MD; Fabienne C. Fierz, MD; Edward A. Margolin, MD; Konrad P. Weber, MD.*
 
                  "),
         imageOutput("DAG"),
