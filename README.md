@@ -1,14 +1,12 @@
-# Occular Myasthenia Prediction
+# Ocular Myasthenia Prediction Model
 
-This repository contains the Shiny app developed for
+This repository contains the R code for an interactive Shiny application developed for
 
 > **Multivariable Prediction Model for Suspected Ocular Myasthenia Gravis: Development and Validation**
 > 
-> by *Armin Handzic, MD, Marius P. Furter , Brigitte C. Messmer,
-> Magdalena A. Wirth, MD, Yulia Valko, MD, Fabienne C. Fierz, MD, Edward
-> A. Margolin, MD, Konrad P. Weber, MD,*
-> 
-> in the ***Journal of Neuro-Ophthalmology.***
+> by *Armin Handzic, MD; Marius P. Furter; Brigitte C. Messmer;
+> Magdalena A. Wirth, MD; Yulia Valko, MD; Fabienne C. Fierz, MD; Edward
+> A. Margolin, MD; Konrad P. Weber, MD.*
 
 The app is hosted online at [myasthenia-prediction.app](https://myasthenia-prediction.app).
 
@@ -20,4 +18,4 @@ library(shiny)
 runGitHub("myasthenia-prediction", "MariusFurter")
 ```
 
-The repository additionally contains raw versions of the [results](analysis/results) presented in the paper along with the [code](analysis/code) that generated them. The original data sets are not included since they contain sensitive patient information.
+The repository additionally contains the [code](analysis/code) that was used to fit the prediction model, along with the raw [results](analysis/results) used for its description and validation. The original data sets are not included since they contain sensitive patient information.
