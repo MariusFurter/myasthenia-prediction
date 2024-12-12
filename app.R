@@ -75,7 +75,7 @@ ui <- fluidPage(
           6,
           selectInput(
             inputId = "endrophonium",
-            label = "Endophonium",
+            label = "Edrophonium",
             choices = c("positive", "negative", NA),
             selected = NA
           )
