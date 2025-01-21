@@ -180,11 +180,16 @@ ui <- fluidPage(
       tabPanel(
         title = "About",
         value = "about",
-        markdown("This app predicts the probability of *ocular myasthenia gravis*
-                 using a Bayesian network model with the structure depicted below. For additional details see
+        markdown("This app predicts the probability of *ocular myasthenia gravis* (OMG) using a [discrete Bayesian network](https://en.wikipedia.org/wiki/Bayesian_network) whose conditional probabilities were fit to retrospective study data from 89 adults. You may enter any partial combination of variables in the left panel to make a prediction.
 
-                 **'Multivariable Prediction Model for Suspected Ocular Myasthenia Gravis: Development and Validation'** by *Armin Handzic, MD; Marius P. Furter; Brigitte C. Messmer; Magdalena A. Wirth, MD; Yulia Valko, MD; Fabienne C. Fierz, MD; Edward A. Margolin, MD; Konrad P. Weber, MD.*
+                  The code used for fitting the model and building this app is available on [GitHub](https://github.com/MariusFurter/myasthenia-prediction). For additional details see
 
+                  **'Multivariable Prediction Model for Suspected Ocular Myasthenia Gravis: Development and Validation'** by *Armin Handzic, MD; Marius P. Furter; Brigitte C. Messmer; Magdalena A. Wirth, MD; Yulia Valko, MD; Fabienne C. Fierz, MD; Edward A. Margolin, MD; Konrad P. Weber, MD.*
+
+                  The directed acyclic graph depicted below summarizes the variables and conditional independencies assumed by the model. The graph was chosen according to medical plausibility and statistical independence tests. It is not meant to imply causal connections between the variables.
+
+                  *Abbreviations:* Ocular myasthenia gravis (OMG), acetylcholine receptor antibodies (anti-AChR), repetitive nerve stimulations (RNS), single-fiber electromyography (SFEMG), Simpson test (sustained upgaze test).
+                  
                  "),
         imageOutput("DAG"),
       ),
