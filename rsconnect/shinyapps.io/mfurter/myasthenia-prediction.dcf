@@ -5,9 +5,9 @@ account: mfurter
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 13549810
-bundleId: 9510068
+bundleId: 9725610
 url: https://mfurter.shinyapps.io/myasthenia-prediction/
 version: 1
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: README.md|analysis
+ignoredFiles: CITATION.cff|LICENSE|README.md|analysis
