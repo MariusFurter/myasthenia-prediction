@@ -196,7 +196,7 @@ ui <- fluidPage(
 
                   The directed acyclic graph depicted below summarizes the variables and conditional independencies assumed by the model. The graph was chosen according to medical plausibility and statistical independence tests. It is not meant to imply causal connections between the variables.
 
-                  *Abbreviations:* Ocular myasthenia gravis (OMG), acetylcholine receptor antibodies (anti-AChR), repetitive nerve stimulation (RNS), single-fiber electromyography (SFEMG).
+                  *Abbreviations:* Ocular myasthenia gravis (OMG), acetylcholine receptor antibodies (anti-AChR), repetitive nerve stimulation (RNS), single-fiber electromyography (SFEMG). The sustained upgaze test is also known as Simpson test.
                   
                  "),
         imageOutput("DAG"),
