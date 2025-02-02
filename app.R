@@ -58,11 +58,9 @@ predict_mg <- function(age = NA,
 
 # Define UI for application
 ui <- fluidPage(
-  
   titlePanel("Ocular Myasthenia Gravis Prediction"),
   sidebarLayout(
     sidebarPanel(
-      
       fluidRow(column(
         12,
         selectInput(
@@ -72,37 +70,32 @@ ui <- fluidPage(
           selected = NA
         )
       ), ),
-      fluidRow(
-        column(
-          6,
-          selectInput(
-            inputId = "endrophonium",
-            label = "Edrophonium Test",
-            choices = c("positive", "negative", NA),
-            selected = NA
-          )
-        ),
-        column(
-          6,
-          selectInput(
-            inputId = "sfemg",
-            label = "Single-Fiber EMG",
-            choices = c("positive", "negative", NA),
-            selected = NA
-          )
-        ), 
-      ),
-      fluidRow(
-        column(
-          6,
-          selectInput(
-            inputId = "simpson.test",
-            label = "Sustained Upgaze Test",
-            choices = c("positive", "negative", NA),
-            selected = NA
-          )
-        ),
-      column(
+      fluidRow(column(
+        6,
+        selectInput(
+          inputId = "endrophonium",
+          label = "Edrophonium Test",
+          choices = c("positive", "negative", NA),
+          selected = NA
+        )
+      ), column(
+        6,
+        selectInput(
+          inputId = "sfemg",
+          label = "Single-Fiber EMG",
+          choices = c("positive", "negative", NA),
+          selected = NA
+        )
+      ), ),
+      fluidRow(column(
+        6,
+        selectInput(
+          inputId = "simpson.test",
+          label = "Sustained Upgaze Test",
+          choices = c("positive", "negative", NA),
+          selected = NA
+        )
+      ), column(
         6,
         selectInput(
           inputId = "rns.an.fn.max",
@@ -111,17 +104,15 @@ ui <- fluidPage(
           selected = NA
         )
       )),
-      fluidRow(
-        column(
-          6,
-          selectInput(
-            inputId = "besinger.score",
-            label = "Besinger Score",
-            choices = c("(-1,1]", "(1,4]", "(4,8]", "(8,24]", NA),
-            selected = NA
-          )
-        ),
-        column(
+      fluidRow(column(
+        6,
+        selectInput(
+          inputId = "besinger.score",
+          label = "Besinger Score",
+          choices = c("(-1,1]", "(1,4]", "(4,8]", "(8,24]", NA),
+          selected = NA
+        )
+      ), column(
         6,
         selectInput(
           inputId = "ice.test",
@@ -188,17 +179,19 @@ ui <- fluidPage(
         title = "Model Description",
         value = "description",
         br(),
-        markdown("This app predicts the probability of *ocular myasthenia gravis* using a [discrete Bayesian network](https://en.wikipedia.org/wiki/Bayesian_network) whose conditional probabilities were fit to retrospective study data from 89 adults. You may enter any partial combination of variables in the left panel to make a prediction.
+        HTML(
+          "<p>This app predicts the probability of <em>ocular myasthenia gravis</em> using a <a href=\"https://en.wikipedia.org/wiki/Bayesian_network\" target=\"_blank\">discrete Bayesian network </a> whose conditional probabilities were fit to retrospective study data from 89 adults. You may enter any partial combination of variables in the left panel to make a prediction.</p>
 
-                  The code used for fitting the model and building this app is available on [GitHub](https://github.com/MariusFurter/myasthenia-prediction). For additional details see
+              <p>The code used for fitting the model and building this app is available on <a href=\"https://github.com/MariusFurter/myasthenia-prediction\" target=\"_blank\">GitHub</a>. For additional details see </p>
 
-                  **'Multivariable Prediction Model for Suspected Ocular Myasthenia Gravis: Development and Validation'** by *Armin Handzic, MD; Marius P. Furter; Brigitte C. Messmer; Magdalena A. Wirth, MD; Yulia Valko, MD; Fabienne C. Fierz, MD; Edward A. Margolin, MD; Konrad P. Weber, MD,* in ***Journal of Neurology-Ophthalmology.***
+              <p><strong>'Multivariable Prediction Model for Suspected Ocular Myasthenia Gravis: Development and Validation'</strong> by <em>Armin Handzic, MD; Marius P. Furter; Brigitte C. Messmer; Magdalena A. Wirth, MD; Yulia Valko, MD; Fabienne C. Fierz, MD; Edward A. Margolin, MD; Konrad P. Weber, MD,</em> in <strong><em>Journal of Neurology-Ophthalmology.</em></strong></p>
 
-                  The directed acyclic graph depicted below summarizes the variables and conditional independencies assumed by the model. The graph was chosen according to medical plausibility and statistical independence tests. It is not meant to imply causal connections between the variables.
+              <p>The directed acyclic graph depicted below summarizes the variables and conditional independencies assumed by the model. The graph was chosen according to medical plausibility and statistical independence tests. It is not meant to imply causal connections between the variables.</p>
 
-                  *Abbreviations:* Ocular myasthenia gravis (OMG), acetylcholine receptor antibodies (anti-AChR), repetitive nerve stimulation (RNS), single-fiber electromyography (SFEMG). The sustained upgaze test is also known as Simpson test.
-                  
-                 "),
+              <p><em>Abbreviations:</em> Ocular myasthenia gravis (OMG), acetylcholine receptor antibodies (anti-AChR), repetitive nerve stimulation (RNS), single-fiber electromyography (SFEMG). The sustained upgaze test is also known as Simpson test.</p>
+
+                 "
+        ),
         imageOutput("DAG"),
       ),
     ), )
@@ -227,7 +220,7 @@ server <- function(input, output, session) {
       updateSelectInput(session, item, selected = "NA")
     }
   })
-
+  
   predictions <- reactive(
     predict_mg(
       age = input$age,
@@ -243,81 +236,107 @@ server <- function(input, output, session) {
       ptosis = input$ptosis
     )
   )
-
-  output$ci <- renderUI(
-    if (!all(is.na(predictions()))) {
+  
+  output$ci <- renderUI(if (!all(is.na(predictions()))) {
     m <- median(predictions())
     q <- quantile(predictions(), c(0.025, 0.975), na.rm = T)
     
-    line1 <- paste0("Median probability of ocular myasthenia gravis:  ", 
-           "<b>",
-           100*signif(m, 2), 
-           "%,</b>")
+    line1 <- paste0(
+      "Median probability of ocular myasthenia gravis:  ",
+      "<b>",
+      100 * signif(m, 2),
+      "%,</b>"
+    )
     
     line2 <- paste0(
-           "with 95% credible interval around median:  ",
-           "<b>",
-           "[", 100*signif(q[1], 2), "%, ",
-           100*signif(q[2], 2), "%].</b>")
+      "with 95% credible interval around median:  ",
+      "<b>",
+      "[",
+      100 * signif(q[1], 2),
+      "%, ",
+      100 * signif(q[2], 2),
+      "%].</b>"
+    )
     
-    HTML( paste(line1, line2, sep="<br/>") )
+    HTML(paste(line1, line2, sep = "<br/>"))
   })
-
-  output$plot <- renderPlot(
-    {
-      if (!all(is.na(predictions()))) {
-        pred <- as.vector(predictions())
-        m <- signif(median(predictions()), 2)
-
-        q_025 <- quantile(pred, 0.025, na.rm = T)
-        q_25 <- quantile(pred, 0.25, na.rm = T)
-        q_75 <- quantile(pred, 0.75, na.rm = T)
-        q_975 <- quantile(pred, 0.975, na.rm = T)
-        qdf <- data.frame(m = m, q_025 = q_025, q_25 = q_25, q_75 = q_75, q_975 = q_975)
-
-        ggplot(data = data.frame(pred)) +
-          geom_density(aes(x = pred)) +
-          geom_vline(aes(xintercept = m), linetype = "dashed", data = qdf) +
-          geom_segment(aes(x = q_025, xend = q_975, y = 0, yend = 0), linewidth = 1, color = "lightblue3", data = qdf) +
-          geom_segment(aes(x = q_25, xend = q_75, y = 0, yend = 0), linewidth = 2.5, color = "dodgerblue4", data = qdf) +
-          xlim(0, 1) +
-          xlab("Probability of OMG") +
-          ylab("Probability Density") +
-          theme_light() +
-          theme(
-            panel.grid = element_blank(), axis.text.y = element_blank(),
-            axis.ticks.y = element_blank()
-          )
-      }
-    },
-    res = 120
-  )
-
-  output$intro <- output$legend <- renderText(
-    if (all(is.na(predictions()))) {
-      "Please enter at least one predictor value in the left panel."
-    })
+  
+  output$plot <- renderPlot({
+    if (!all(is.na(predictions()))) {
+      pred <- as.vector(predictions())
+      m <- signif(median(predictions()), 2)
+      
+      q_025 <- quantile(pred, 0.025, na.rm = T)
+      q_25 <- quantile(pred, 0.25, na.rm = T)
+      q_75 <- quantile(pred, 0.75, na.rm = T)
+      q_975 <- quantile(pred, 0.975, na.rm = T)
+      qdf <- data.frame(
+        m = m,
+        q_025 = q_025,
+        q_25 = q_25,
+        q_75 = q_75,
+        q_975 = q_975
+      )
+      
+      ggplot(data = data.frame(pred)) +
+        geom_density(aes(x = pred)) +
+        geom_vline(aes(xintercept = m),
+                   linetype = "dashed",
+                   data = qdf) +
+        geom_segment(
+          aes(
+            x = q_025,
+            xend = q_975,
+            y = 0,
+            yend = 0
+          ),
+          linewidth = 1,
+          color = "lightblue3",
+          data = qdf
+        ) +
+        geom_segment(
+          aes(
+            x = q_25,
+            xend = q_75,
+            y = 0,
+            yend = 0
+          ),
+          linewidth = 2.5,
+          color = "dodgerblue4",
+          data = qdf
+        ) +
+        xlim(0, 1) +
+        xlab("Probability of OMG") +
+        ylab("Probability Density") +
+        theme_light() +
+        theme(
+          panel.grid = element_blank(),
+          axis.text.y = element_blank(),
+          axis.ticks.y = element_blank()
+        )
+    }
+  }, res = 120)
+  
+  output$intro <- output$legend <- renderText(if (all(is.na(predictions()))) {
+    "Please enter at least one predictor value in the left panel."
+  })
   
   output$legend <- renderText({
     if (!all(is.na(predictions()))) {
-      "Posterior distribution over the probability of ocular myasthenia gravis (OMG) with median (dashed line), 50% credible interval (dark blue) and 95% credible interval (light blue). 
-      A higher value of the density indicates that the corresponding probability of OMG is more likely."
+      "Distribution summarizing the uncertainty for the probability of ocular myasthenia gravis (OMG). The median (dashed line) provides a point estimate for the probability of OMG. The 50% (dark blue) and 95% (light blue) credible intervals contain the actual probability of OMG with 50% (resp. 95%) probability. Wider credible intervals indicate higher uncertainty for the probability of OMG."
     }
   })
-
-  output$DAG <- renderImage(
-    {
-      width <- session$clientData$output_DAG_width
-      height <- session$clientData$output_DAG_height
-      list(
-        src = "./OMG_DAG.png",
-        contentType = "image/png",
-        width = width,
-        alt = "DAG structure of the model"
-      )
-    },
-    deleteFile = FALSE
-  )
+  
+  output$DAG <- renderImage({
+    width <- session$clientData$output_DAG_width
+    height <- session$clientData$output_DAG_height
+    list(
+      src = "./OMG_DAG.png",
+      contentType = "image/png",
+      width = width,
+      alt = "DAG structure of the model"
+    )
+  }, deleteFile = FALSE)
 }
 
 # Run the application
